@@ -5,10 +5,17 @@ Copyright © 2022 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"database/sql"
+	"github.com/marcobelo/arch_hexagonal_go/application"
 	"os"
 
+	dbInfra "github.com/marcobelo/arch_hexagonal_go/adapters/db"
 	"github.com/spf13/cobra"
 )
+
+var db, _ = sql.Open("sqlite3", "db.sqlite")
+var productDb = dbInfra.NewProductDb(db)
+var productService = application.ProductService{Persistence: productDb}
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
